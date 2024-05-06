@@ -8,20 +8,10 @@ from django.shortcuts import render, redirect
 from typing import Any
 from .serializers import GamesSerializer, ClientSerializer, GenreSerializer, CommentSerializer
 from .forms import RegistrationForm
-
+from django.http import HttpResponse
 
 def home_page(request):
-    return render(
-        request,
-        "index.html",
-        context={
-            'games': Games.objects.count(),
-            'clients': Client.objects.count(),
-            'comments': Comment.objects.count(),
-            'genres': Genre.objects.count(),
-        },
-    )
-
+    return HttpResponse('ahdjsj')
 
 def create_listview(model_class, template, plural_name):
     class View(LoginRequiredMixin, ListView):
