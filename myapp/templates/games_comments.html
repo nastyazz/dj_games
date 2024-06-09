@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Comments</title>
+</head>
+<body>
+    <h1>Comments for "{{ game.title }}"</h1>
+    <ul>
+        {% for comment in comments %}
+        <li>
+            <div><strong>Description:</strong> {{ comment.description }}</div>
+            <div><strong>Date:</strong> {{ comment.date_public }}</div>
+            <div><strong>Estimation:</strong> {{ comment.estimation }}</div>
+        </li>
+        {% endfor %}
+    </ul>
+    <div><a href="{% url 'games' %}">Back to Game</a></div>
+    <div><a href="{% url 'home' %}">Back to Home</a></div>
+</body>
+</html>

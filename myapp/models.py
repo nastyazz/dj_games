@@ -1,15 +1,13 @@
 from django.db import models
 from uuid import uuid4
 from django.utils.translation import gettext_lazy as _
-from datetime import timezone, datetime
+from datetime import date
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.utils import timezone
 
-def get_date() -> datetime:
-    return datetime.now(timezone.utc).date()
-
-def check_date_created(dt: datetime) -> None:
-    if dt > get_date():
+def check_date_created(dt: date) -> None:
+    if dt > timezone.now().date():
         raise ValidationError(
             _('Date is bigger than current!'),
             params={'created': dt}
@@ -41,11 +39,19 @@ class UUIDMixin(models.Model):
 
 GAMES_GENRE = (('Fiction', 'Fiction'),
                ('PVP', 'PVP'),
-               ('Horror', 'Horror')
+               ('Horror', 'Horror'),
+               ('Card', 'Card'),
+               ('Simulator', 'Sumilator'),
+               ('Strategy', 'Strategy'),
+               ('Casual', 'Casual'),
+               ('Adventures', 'Adventures'),
+               ('Verbal', 'Verbal'),
+               ('Puzzles', 'Puzzles'),
                )
 class Genre(UUIDMixin):
     title = models.TextField(_('title'), null=False, blank=False, max_length=200, choices = GAMES_GENRE)
     game = models.ManyToManyField('Games', through='GameGenre')
+    
     def __str__(self) -> str:
         return self.title
     
@@ -75,7 +81,7 @@ class Client(UUIDMixin):
     user = models.OneToOneField(User, verbose_name=_('user'), on_delete=models.CASCADE, null=True, blank=True)
     nickname = models.TextField(_('nickname'),null=False, blank=False, max_length=300)
     money = models.DecimalField(_('money'), decimal_places=2, max_digits=10, default=0, validators=[check_money])
-    date_registrate = models.DateField(_('date_registrate'), validators=[check_date_created])
+    date_registrate = models.DateField(_('date_registrate'), validators=[check_date_created], auto_now_add=True)
 
     game = models.ManyToManyField(Games, through='GameClient')
 
@@ -90,9 +96,9 @@ class Client(UUIDMixin):
 
 class Comment(UUIDMixin):
     description = models.TextField(_('description'), null=False, blank=False, max_length=1000)
-    date_public = models.DateField(_('date_public'), default=get_date)
+    date_public = models.DateField(_('date_public'), default=timezone.now)
     estimation = models.DecimalField(verbose_name=_('estimation'), decimal_places=1, max_digits=5, default=0, validators=[check_estimation])
-    game = models.ForeignKey(Games, on_delete=models.CASCADE)
+    game = models.ForeignKey(Games, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.description}, {self.date_public.isoformat()}, {self.estimation}'
@@ -104,23 +110,25 @@ class Comment(UUIDMixin):
         verbose_name_plural = _('comment')
 
 class GameClient(UUIDMixin):
-    game = models.ForeignKey(Games, verbose_name=_('games'), on_delete=models.CASCADE)
-    client = models.ForeignKey(Client, verbose_name=_('client'), on_delete=models.CASCADE)
+    game = models.ForeignKey(Games, verbose_name=_('games'), on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(Client, verbose_name=_('client'), on_delete=models.DO_NOTHING)
+    in_cart = models.BooleanField(default=False)
+    purchased = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f'{self.game.title} - {self.client.nickname}'
 
     class Meta:
         db_table = '"games_data"."games_to_client"'
-        unique_together = (
-            ('game', 'client'),
-        )
+        unique_together = (('game', 'client'),)
         verbose_name = _('relationship games client')
         verbose_name_plural = _('relationships games client')
 
+
+
 class GameGenre(UUIDMixin):
-    game = models.ForeignKey(Games, verbose_name=_('game'), on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre, verbose_name=_('genre'), on_delete=models.CASCADE)
+    game = models.ForeignKey(Games, verbose_name=_('game'), on_delete=models.DO_NOTHING)
+    genre = models.ForeignKey(Genre, verbose_name=_('genre'), on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
         return f'{self.game.title} - {self.genre.title}'

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li div {
+            margin-bottom: 10px;
+        }
+        li div strong {
+            font-weight: bold;
+        }
+        .btn-delete {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 150px;
+            margin: 20px auto 0;
+            transition: background-color 0.3s ease;
+        }
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Games</h1>
+        <ul>
+            {% for game in games_list %}
+            <li>
+                <div>
+                    <div><strong>Title:</strong> {{ game.title }}</div>
+                    <div><strong>Price:</strong> ${{ game.price }}</div>
+                    <div><strong>Genres:</strong> 
+                        {% for genre in game.genres.all %}
+                            {{ genre.title }}
+                            {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <form method="post" action="{% url 'confirm_delete' game.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-delete">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+    </div>
+</body>
+</html>

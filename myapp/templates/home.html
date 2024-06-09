@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <div class="welcome-message">
+            <p>Welcome, {{ user.username }}!</p>
+        </div>
+
+        <div class="search-section">
+            <h2>Search Games</h2>
+            <form method="get" action="{% url 'home' %}" class="search-form">
+                <input type="text" name="query" placeholder="Search for a game..." class="form-control">
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </div>
+
+        <div class="games-section">
+            <h3>All Games:</h3>
+            <ul class="list-group">
+                {% for game in page_obj %}
+                <li class="list-group-item">
+                    <a href="{% url 'games_detail' game.id %}">{{ game.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="pagination">
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        {% if games_q %}
+            <div class="search-results-section">
+                <h3>Search Results:</h3>
+                <ul class="list-group">
+                    {% for game in games_q %}
+                    <li class="list-group-item">
+                        <div><strong>Title:</strong> <a href="{% url 'games_detail' game.id %}">{{ game.title }}</a></div>
+                        <div><strong>Price:</strong> ${{ game.price }}</div>
+                        <div><strong>Genres:</strong>
+                            {% for genre in game.genres.all %}
+                                {{ genre.title }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="add-game-section">
+            <a href="{% url 'add_game' %}" class="btn btn-success">Add New Game</a>
+        </div>
+
+           {% else %}
+        <div class="auth-links">
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

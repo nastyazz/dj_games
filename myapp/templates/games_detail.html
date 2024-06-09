@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Game Details{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>{{ game.title }}</h2>
+    <p><strong>Price:</strong> ${{ game.price }}</p>
+    <p><strong>Genres:</strong>
+        {% for genre in game.genres.all %}
+            {{ genre.title }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <form method="post" action="{% url 'add_to_cart' game.id %}">
+        {% csrf_token %}
+        <button type="submit">Add to Cart</button>
+    </form>
+
+    <h3>Comments</h3>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>{{ comment.description }} - <em>{{ comment.date_public }}</em> - Rating: {{ comment.estimation }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    <h3>Add a Comment</h3>
+    <form method="post" action="{% url 'games_detail' game.id %}">
+        {% csrf_token %}
+        <textarea name="description" placeholder="Write your comment here..."></textarea>
+        <br>
+        <label for="estimation">Rating:</label>
+        <select name="estimation" id="estimation">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br>
+        <button type="submit">Add Comment</button>
+        <div><a href="{% url 'home' %}">Back to Home</a></div>
+    </form>
+</div>
+{% endblock %}

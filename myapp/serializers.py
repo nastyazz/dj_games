@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 def check_date(dt) -> bool:
-    return dt > timezone.now()
+    return dt > timezone.now().date()
 
 class GamesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -14,7 +14,7 @@ class GamesSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
-    date_registrate = serializers.DateTimeField(format='%Y-%m-%d')
+    date_registrate = serializers.DateField(format='%Y-%m-%d')
     class Meta:
         model = Client
         fields = [
@@ -27,7 +27,7 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         return super().validate(data)
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
-    date_public = serializers.DateTimeField(format='%Y-%m-%d')
+    date_public = serializers.DateField(format='%Y-%m-%d')
     class Meta:
         model = Comment
         fields = [

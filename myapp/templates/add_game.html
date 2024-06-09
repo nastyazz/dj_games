@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Add Game{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Add a New Game</h2>
+    <form method="post" class="form-add-game">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Game</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Your Cart</h2>
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+            <li>
+                <div><strong>Title:</strong> {{ item.game.title }}</div>
+                <div><strong>Price:</strong> ${{ item.game.price }}</div>
+                <form method="post" action="{% url 'remove_from_cart' item.game.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove from Cart</button>
+                </form>
+                <form method="post" action="{% url 'buy_game' item.game.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Buy</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Your cart is empty.</p>
+        <div><a href="{% url 'home' %}">Back to Home</a></div>
+    {% endif %}
+</div>
+{% endblock %}

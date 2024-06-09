@@ -1,0 +1,96 @@
+.container {
+    width: 100%;
+    max-width: 800px; /* Увеличим ширину контейнера */
+    margin: 0 auto; /* Центрирование контейнера по горизонтали */
+    padding: 20px;
+    background-color: #f9f9f9; /* Цвет фона контейнера */
+    border-radius: 10px; /* Скругление углов контейнера */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень контейнера */
+}
+
+h2, h3 {
+    text-align: center;
+    margin-bottom: 20px; /* Добавим отступ снизу */
+}
+
+.error-message, .info-message {
+    text-align: center;
+    margin-bottom: 20px; /* Добавим отступ снизу */
+}
+
+.login-form, .form-add-game, .search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирование по горизонтали */
+    gap: 15px;
+}
+
+.form-group {
+    width: 100%; /* Установим ширину на 100% для центрирования полей формы */
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary, .btn-secondary, .btn-info {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Цвет фона кнопки при наведении */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Цвет фона кнопки при наведении */
+}
+
+.btn-info {
+    position: relative;
+}
+
+.btn-info img {
+    vertical-align: middle;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 12px;
+}

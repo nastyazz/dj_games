@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -29,9 +30,8 @@ router.register(r'comment', views.CommentViewSet)
 router.register(r'genre', views.GenreViewSet)
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-    path('', views.home_page, name='homepage'),
-    # path('games/', views.GamesListView.as_view(), name='games'),
+    path('', views.home, name='home'),
+    path('games/', views.users_games_catalog, name='games'),
     # path('game/', views.game_view, name='game'),
     # path('clients/', views.ClientListView.as_view(), name='clients'),
     # path('client/', views.client_view, name='client'),
@@ -39,10 +39,20 @@ urlpatterns = [
     # path('comment/', views.comment_view, name='comment'),
     # path('genres/', views.GenreListView.as_view(), name='genres'),
     # path('genre/', views.gerne_view, name='genre'),
-    # path('register/', views.register, name='register'),
+    path('register/', views.register, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('api/', include(router.urls), name='api'),
+    path('games_comments/<uuid:game_id>/', views.games_comments, name='games_comments'),
+    path('search/', views.search_games, name='search_games'),
+    path('add_game/', views.add_game, name='add_game'),
+    path('games/<uuid:game_id>/delete/', views.delete_game, name='confirm_delete'),
     # path('profile/', views.profile, name='profile'),
     # path('buy/', views.buy, name='buy'),
+    path('cart', views.view_cart, name='cart'),
+    path('add_to_cart/<uuid:game_id>/', views.add_to_cart, name='add_to_cart'),
+    path('buy_game/<uuid:game_id>/', views.buy_game, name='buy_game'),
+    path('remove_from_cart/<uuid:game_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('games_detail/<uuid:game_id>/', views.game_details, name='games_detail'),
 ]
-
