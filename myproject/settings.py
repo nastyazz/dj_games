@@ -16,7 +16,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -94,6 +93,11 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 load_dotenv()
+print(getenv('PG_DBNAME'))
+print(getenv('PG_USER'))
+print(getenv('PG_PASSWORD'))
+print(getenv('PG_HOST'))
+print(getenv('PG_PORT'))
 
 DATABASES = {
     'default': {
