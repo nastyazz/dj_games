@@ -46,4 +46,3 @@ jobs:
       run: ./tests/test.sh tests.test_models
     - name: Test api
       run: ./tests/test.sh tests.test_api
-    - name: Test forms
