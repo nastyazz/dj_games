@@ -23,12 +23,12 @@ jobs:
       postgres:
         image: postgres
         env:
-          PG_HOST: 127.0.0.1
-          PG_PORT: 38734
+          PG_HOST: localhost
+          PG_PORT: 5432
           PG_USER: project
           PG_PASSWORD: project
         ports:
-        - 38734:5432
+        - 5432:5432
     steps:
     - uses: actions/checkout@v2
     - name: Python installation
