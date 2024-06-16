@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+
 from myapp.models import (Client, Comment, GameClient, Games, Genre,
                           check_date_created, check_estimation, check_money,
                           check_price)

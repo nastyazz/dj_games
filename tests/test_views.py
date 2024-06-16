@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.test import Client as TestClient
 from django.test import TestCase
 from django.urls import reverse
+
 from myapp.models import Client, GameClient, Games, Genre
 
 FIFTY = 50.0

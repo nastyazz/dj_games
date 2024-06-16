@@ -2,10 +2,11 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from myapp.models import Client, Comment, Games, Genre
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+
+from myapp.models import Client, Comment, Games, Genre
 
 
 def create_api_test(model_class, url, creation_attrs):
