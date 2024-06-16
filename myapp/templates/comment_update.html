@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Comment update{% endblock %}
+{% block content %}
+<form method='POST' action="{% url 'update_comment' comment_id %}">
+    {% csrf_token %}
+    <textarea name="description" placeholder="Write your comment here..."></textarea>
+    <br>
+    <label for="estimation">Rating:</label>
+    <select name="estimation" id="estimation">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <br>
+    <button type="submit">Add Comment</button>
+    <div><a href="{% url 'home' %}">Back to Home</a></div>
+</form>
+{% endblock %}

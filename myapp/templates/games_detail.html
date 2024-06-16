@@ -19,13 +19,24 @@
     {% if comments %}
         <ul>
             {% for comment in comments %}
-                <li>{{ comment.description }} - <em>{{ comment.date_public }}</em> - Rating: {{ comment.estimation }}</li>
+                <li>{{ comment.description }} - <em>{{ comment.date_public }}</em> - Rating: {{ comment.estimation }} - <em>{{ comment.client.nickname}}</em></li>
+                {% if request.user.username == comment.client.nickname %}
+                <form method="post" action="{% url 'comment_delete' comment.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+                </form>
+                <form  action="{% url 'update_comment' comment.id %}">
+                {% csrf_token %}
+                <button type="submit">Update</button>
+                </form>
+                {% endif %}
+
             {% endfor %}
         </ul>
     {% else %}
         <p>No comments yet.</p>
     {% endif %}
-
+    {% if 1 > count_comment_user %}
     <h3>Add a Comment</h3>
     <form method="post" action="{% url 'games_detail' game.id %}">
         {% csrf_token %}
@@ -44,5 +55,8 @@
         <button type="submit">Add Comment</button>
         <div><a href="{% url 'home' %}">Back to Home</a></div>
     </form>
+    {% else %}
+        <p>You already have a comment. Change it or delete it</p>
+    {% endif %}
 </div>
 {% endblock %}

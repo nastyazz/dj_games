@@ -5,7 +5,7 @@
 <div class="container">
     {% if user.is_authenticated %}
         <div class="welcome-message">
-            <p>Welcome, {{ user.username }}!</p>
+            <p>Welcome, {{ user.username }}! Your balance: {{ money_client }}</p>
         </div>
 
         <div class="search-section">
