@@ -93,11 +93,6 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 load_dotenv()
-print(getenv('PG_DBNAME'))
-print(getenv('PG_USER'))
-print(getenv('PG_PASSWORD'))
-print(getenv('PG_HOST'))
-print(getenv('PG_PORT'))
 
 DATABASES = {
     'default': {
