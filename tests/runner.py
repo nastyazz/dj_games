@@ -27,7 +27,7 @@ class PostgresSchemaRunner(DiscoverRunner):
         Returns:
             list: A list of tuples containing the prepared database connections.
         """
-        for conn_name in connections.items():
+        for conn_name in connections:
             connection = connections[conn_name]
             connection.prepare_database = MethodType(prepare_db, connection)
         return super().setup_databases(**kwargs)
